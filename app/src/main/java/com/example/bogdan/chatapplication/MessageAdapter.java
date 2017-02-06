@@ -7,6 +7,7 @@ package com.example.bogdan.chatapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,7 @@ import java.util.List;
 public class MessageAdapter extends BaseAdapter {
 
     private List<Message> messageList;
-    Context messageContext;
-    private boolean isSelf;
+    private Context messageContext;
 
     public MessageAdapter(Context context, List<Message> messages) {
         this.messageList = messages;
@@ -45,20 +45,29 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int index, View view, ViewGroup viewGroup) {
         MessageViewHolder holder;
+        Message message = (Message) getItem(index);
         if (view == null) {
             LayoutInflater messageInflater = (LayoutInflater) messageContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-            view = messageInflater.inflate(R.layout.message_layout, null);
+           // view = messageInflater.inflate(R.layout.message_layout, null);
+
+            if (message.isSelf) {
+                Log.i("SOCLEEEELT", "this is self");
+                view = messageInflater.inflate(R.layout.message_from_self, null);
+            } else {
+                view = messageInflater.inflate(R.layout.message_from_other, null);
+                Log.i("SOCLEEEELT", "this is other");
+            }
             holder = new MessageViewHolder();
-            holder.senderView = (TextView) view.findViewById(R.id.message_sender);
-            holder.bodyView = (TextView) view.findViewById(R.id.message_body);
+            holder.senderView = (TextView) view.findViewById(R.id.lblMsgFrom);
+            holder.bodyView = (TextView) view.findViewById(R.id.txtMsg);
 
             view.setTag(holder);
         } else {
             holder = (MessageViewHolder) view.getTag();
         }
 
-        Message message = (Message) getItem(index);
+
         holder.bodyView.setText(message.text);
         holder.senderView.setText(message.user);
 
@@ -66,9 +75,6 @@ public class MessageAdapter extends BaseAdapter {
         return view;
     }
 
-    public void isSelf(boolean isSelf) {
-        this.isSelf = isSelf;
-    }
 
     private static class MessageViewHolder {
         public TextView senderView;
