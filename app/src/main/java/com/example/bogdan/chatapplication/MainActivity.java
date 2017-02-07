@@ -1,5 +1,6 @@
 package com.example.bogdan.chatapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -60,9 +61,11 @@ public class MainActivity extends AppCompatActivity {
         String message = mInputMessageView.getText().toString().trim();
         mInputMessageView.setText("");
         JSONObject sendText = new JSONObject();
+        Intent i = getIntent();
+        String userName = i.getStringExtra("userName");
         try {
             sendText.put("text", message);
-            sendText.put("user", "Bogdan");
+            sendText.put("user", userName);
             sendText.put("userId", socket.id());
             socket.emit("message", sendText);
         } catch (JSONException e) {
@@ -81,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     JSONObject data = (JSONObject) args[0];
                     Log.i("SOCLEEEELT", data.toString());
-                    Log.i("SOCLEEEELT", "in here");
                     String meesageSocket ="";
                     try {
                          meesageSocket = data.getString("userId");
@@ -94,12 +96,10 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.i("SOCLEEEELT", meesageSocket);
                     Log.i("SOCLEEEELT", data.toString());
                     //needs some checks
                     Message message = gson.fromJson(data.toString(), Message.class);
-                    Log.i("SOCLEEEELT", "User is: " + message.user);
-                    Log.i("SOCLEEEELT", "User is: " + message.text);
+                    Log.i("SOCLEEEELT", message.user + " :"+ message.isSelf);
                     messageAdapter.add(message);
                 }
             });

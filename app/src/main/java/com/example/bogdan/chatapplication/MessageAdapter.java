@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -44,34 +45,22 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int index, View view, ViewGroup viewGroup) {
-        MessageViewHolder holder;
-        Message message = (Message) getItem(index);
-        if (view == null) {
-            LayoutInflater messageInflater = (LayoutInflater) messageContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        MessageViewHolder holder = new MessageViewHolder();;
+        LayoutInflater messageInflater = (LayoutInflater) messageContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        Message message =  messageList.get(index);
 
-           // view = messageInflater.inflate(R.layout.message_layout, null);
-
-            if (message.isSelf) {
-                Log.i("SOCLEEEELT", "this is self");
-                view = messageInflater.inflate(R.layout.message_from_self, null);
-            } else {
-                view = messageInflater.inflate(R.layout.message_from_other, null);
-                Log.i("SOCLEEEELT", "this is other");
-            }
-            holder = new MessageViewHolder();
-            holder.senderView = (TextView) view.findViewById(R.id.lblMsgFrom);
-            holder.bodyView = (TextView) view.findViewById(R.id.txtMsg);
-
-            view.setTag(holder);
+        if (message.isSelf()) {
+            Log.i("SOCLEEEELT", "this is self");
+            view = messageInflater.inflate(R.layout.message_from_self, null);
         } else {
-            holder = (MessageViewHolder) view.getTag();
+            view = messageInflater.inflate(R.layout.message_from_other, null);
+            Log.i("SOCLEEEELT", "this is other");
         }
-
-
+        holder.senderView = (TextView) view.findViewById(R.id.lblMsgFrom);
+        holder.bodyView = (TextView) view.findViewById(R.id.txtMsg);
         holder.bodyView.setText(message.text);
         holder.senderView.setText(message.user);
-
-
+        Log.i("SOCLEEEELT", "din adapter: "+ new Date()+ " --->" + message.user + " :"+ message.isSelf);
         return view;
     }
 

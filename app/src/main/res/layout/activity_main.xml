@@ -4,23 +4,22 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.bogdan.chatapplication.MainActivity">
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:id="@+id/messages_view"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="#a3eaf5"
         android:transcriptMode="alwaysScroll"
         android:stackFromBottom="true"
-        android:layout_above="@+id/input_bar"
-        android:layout_alignParentTop="true" />
+        android:background="@null"
+        android:divider="@null"
+        android:layout_above="@+id/input_bar" />
 
     <LinearLayout
         android:id="@+id/input_bar"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
